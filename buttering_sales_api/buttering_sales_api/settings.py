@@ -1,15 +1,18 @@
+
 import os
 
-# Templates
-TEMPLATES[0]['DIR'] = [os.path.join(BASE_DIR, 'templates')]
+DEBUG = False
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Static files
 STATIC.URL = '/static/'
-STATICFILES.DIR = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Media files (for image uploads)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_ROOT = os.pathjoin(BASE_DIR, 'media')
 
 INSTALLED_APPS += [
     'rest_framework',

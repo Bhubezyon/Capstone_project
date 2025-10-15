@@ -2,7 +2,24 @@ from rest_framework import viewsets, permissions, filters
 from .models import Post, Comment
 from serializers import PostSerializer, CommentSerializer
 from rest_framework.decorators import action
-from rest_framework.response import response
+from rest_framework.response import response# Example registration view (not present in your file)
+from rest_framework import generics
+from django.contrib.auth.models import User
+from rest_framework.permissions import AllowAny
+from .serializers import UserRegisterSerializer
+from rest_framework import generics, permissions
+from django.contrib.auth.models import User
+from .serializers_user import RegisterSerializer
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny]
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+    permission_classes = [AllowAny]
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
