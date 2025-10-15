@@ -14,4 +14,12 @@ class CommentSerializer(serializers.ModelsSerializer):
 
     class Meta:
         models = Post
-        fields = ['id', 'author', 'title', 'content', 'created_at', 'updated_at', 'comment']
+        fields = ['id', 'author', 'title', 'summery', 'content', 'is_for_sale', 'exchange_item', 'created_at', 'updated_at', 'comment']
+
+    class PostSerializer(TaggitSerializer, serializers.ModelsSerializer):
+        author = serializers.ReadOnlyField(source='author.username')
+        image = serializers.ImageField(required=False)
+
+        class Metta:
+            model = Post
+            fields = [..., 'image']
