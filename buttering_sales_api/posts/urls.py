@@ -6,6 +6,7 @@ router = DefaultRouter()
 router.register(r'posts', PostViewSet)
 router.register(r'comments', CommentViewSet)
 router.register(r'notifications', NotificationViewSet)
+router.register(r'messages', MessageViewSet)
 
 urlpatterns = [
     path('api', include(router.urls)),

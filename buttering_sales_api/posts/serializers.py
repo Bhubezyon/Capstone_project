@@ -34,3 +34,11 @@ class NotificationSerializer(serializers.ModelsSerializer):
     class Metta:
         model = Notification
         fields = ['id', 'sender', 'recipient', 'post', 'comment', 'message', 'created_at', 'is_read']
+
+class MessageSerializer(serializers.ModelsSerializer):
+    sender = serializers.ReadOnlyField(source='sender.username')
+    recipient = serializers.ReadOnlyField(source='recipient.username')
+
+    class Metta:
+        model = Message
+        field = ['id', 'sender', 'recipient', 'post', 'content', 'timestamp', 'is_read']

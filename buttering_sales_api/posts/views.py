@@ -41,7 +41,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         )
         return Response({'status': 'comment liked'})
 
-class notificationViewSet(viewsets.ReadOnlyModelViewSet):
+class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -49,4 +49,14 @@ class notificationViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(recipient=self.request.user)       
     
+class MessageViewSet(viewsets.Model.ViewSet):
+    serializer_class = MessageSerializer
+    permissions_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        return Message.objects.filter(
+            models.Q(sender=self.request.user) | models.Q(recipient=self.request.user)
+        ).order_by('-timestamp')
+
+    def perfom_create(self, serializer):
+        serializer.save(sender=self.request.user)

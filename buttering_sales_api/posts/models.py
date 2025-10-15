@@ -58,3 +58,14 @@ class Notification(models.Model):
 
     def __str__(self):
         return f'Notificatio for {self.recipient.username}'
+
+class Message(models.Model):
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_messages')
+    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recieved_messages')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Message from {self.sender.username} to {self.recipient.username}'
