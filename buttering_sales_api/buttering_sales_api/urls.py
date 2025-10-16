@@ -1,14 +1,15 @@
-from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-from .views import homepage
+from rest_framework.routers import DefaultRouter
+from .views import PostViewSet, CommentViewSet, NotificationViewSet, MessageViewSet
+from .views_user import RegisterView
+
+router = DefaultRouter()
+router.register(r'posts', PostViewSet)
+router.register(r'comments', CommentViewSet)
+router.register(r'notifications', NotificationViewSet)
+router.register(r'messages', MessageViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('sales.urls')),
-    path('api/', homepage, name='home')
+    path('api/', include(router.urls)),
+    path('api/register/', RegisterView.as_view(), name='register'),
 ]
-
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
