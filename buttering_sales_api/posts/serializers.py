@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Post, Comment
 from django.contrib.auth.models import User
-from rest_framework import serializers
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -20,7 +19,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelsSerializer):
     author = serializers.ReadOnlyField(source='author.username')
-    likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all)
 
     class Meta:
         model = Comment

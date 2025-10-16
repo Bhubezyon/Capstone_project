@@ -15,3 +15,8 @@ urlpatterns = [
     path('api/', include('posts.urls')),
     path('register/', RegisterView.as_view(), name='register'),
 ]
+
+urlpatterns += [
+    path('posts/<int:pk>/like/', LikePostView.as_view(), name='like_post'),
+    path('posts/<int:pk>/unlike/', UnlikePostView.as_view(), name='unlike_post'),
+]
