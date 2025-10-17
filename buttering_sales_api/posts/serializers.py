@@ -17,6 +17,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        user = authenticate(**data)
+        if user:
+            token, _ = Token.objects.get_or_create(user=user)
+            return {'token': token.key}
+        raise serializers.ValidationError("Invalid credentials")
+
 class CommentSerializer(serializers.ModelsSerializer):
     author = serializers.ReadOnlyField(source='author.username')
     post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all)
