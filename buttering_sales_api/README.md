@@ -29,7 +29,7 @@ A full-featured Django REST API for users to barter or sell items, and communica
 ## Setup Instructions
 
 '''bash
-git clone [https://github.com/Bhubezyon/Capstone_project.git]
+git clone [https://github.com/Bhubezyon/Capstone_project.git](https://github.com/Bhubezyon/Capstone_project.git)
 cd butturing_sales_api
 
 python -m venv vevn
@@ -40,3 +40,22 @@ pip install -r requirements.txt
 python manage.py makemigrations
 python manage,py migrate
 python manage.py runserver
+
+- User_Register:
+{
+    "name": "calvin",
+    "email": "calvin@example.com"
+    "password": "12345"
+}
+Response = "User created successfully"
+
+- User_Login:
+{
+    "email": "calvin@example.com"
+    "password": "12345"
+}
+Response = "Login successful"
+
+- Post item (is_for_sale/ exchange_item/ item_description/ Price, or trade_item)
+
+- Message for negotiations.
