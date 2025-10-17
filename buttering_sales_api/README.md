@@ -58,4 +58,13 @@ Response = "Login successful"
 
 - Post item (is_for_sale/ exchange_item/ item_description/ Price, or trade_item)
 
+{
+    "vintage guiter",
+    "description": "classic acoustic guitar from the 70s good condition"
+    "category": "music",
+    "is_for_sale": true,
+    "price": "600"
+    "exchange_item": "piano"
+}
+
 - Message for negotiations.

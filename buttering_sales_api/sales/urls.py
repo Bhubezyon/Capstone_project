@@ -3,6 +3,11 @@ from .views import RegisterView, LoginView, ProfileView
 from .views import FollowUserView, UnfollowUserView, LikeUserView, UnlikeUserView
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api', include('sales.url')),  # Replace with your app name
+]
+
+urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('profile/<str:username>/', ProfileView.as_view(), name='profile'),

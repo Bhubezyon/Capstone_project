@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-import django_database_uurls
+import django_database_urls
 import django_heroku
 
 django_heroku.settings(locals())
@@ -21,16 +21,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttype',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
-    'posts',
-    'sales',
 ]
 
 AUTHOR_USER_MODEL = 'sales.CustomUser'
