@@ -67,4 +67,8 @@ Response = "Login successful"
     "exchange_item": "piano"
 }
 
-- Message for negotiations.
+- Message for negotiations ( Direct_message).
+
+- Follow_user/Unfollow_unfollow.
+
+- Like_user/Unlike_user.
