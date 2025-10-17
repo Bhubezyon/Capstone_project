@@ -60,7 +60,7 @@ Response = "Login successful"
 
 {
     "vintage guiter",
-    "description": "classic acoustic guitar from the 70s good condition"
+    "description": "classic acoustic guitar from the 70s, good condition"
     "category": "music",
     "is_for_sale": true,
     "price": "600"
