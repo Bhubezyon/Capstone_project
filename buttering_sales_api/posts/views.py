@@ -6,14 +6,14 @@ from django.contrib.auth.models import User
 from django.db import models
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Post, Comment, Notification, Message, Like
+from .serializers_user import RegisterSerializer
+
 from .serializers import (
     PostSerializer,
     CommentSerializer,
     NotificationSerializer,
     MessageSerializer,
 )
-from .serializers_user import RegisterSerializer
-
 
 class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
