@@ -1,6 +1,6 @@
 # Buttering & Sales API
 
-A full-featured Django REST API for users to barter or sell items, and communicate securely. Built with Django, DRF, Django Channels, and stripe.
+A full-featured Django REST API for users to barter/sell items, and communicate securely built with Django, DRF, Django Channels, and stripe.
 
 ---
 
@@ -29,7 +29,7 @@ A full-featured Django REST API for users to barter or sell items, and communica
 ## Setup Instructions
 
 '''bash
-git clone [https://github.com/Bhubezyon/Capstone_project.git]
+git clone https://github.com/Bhubezyon/Capstone_project.git
 cd butturing_sales_api
 
 python -m venv vevn
@@ -40,6 +40,8 @@ pip install -r requirements.txt
 python manage.py makemigrations
 python manage,py migrate
 python manage.py runserver
+
+## API FUNCTIONALITIES
 
 - User_Register:
 {
@@ -57,7 +59,6 @@ Response = "User created successfully"
 Response = "Login successful"
 
 - Post item (is_for_sale/ exchange_item/ item_description/ Price, or trade_item)
-
 {
     "vintage guiter",
     "description": "classic acoustic guitar from the 70s, good condition"
@@ -67,14 +68,16 @@ Response = "Login successful"
     "exchange_item": "piano"
     "image": (j.peg, jpg, png)
 }
+Response = "Posted_successfuly"
 
-- Message for negotiations ( Direct_message)
+- Message for negotiations (Direct_message)
 {
     "sender_id": 1,
     "sender_id": 2,
     "listing_id: 12,
     "message": "Hi! I saw vintage guitar, Would you be open to exchanging it for my upright piano. If interested contact me via my cell, phone number in my bio thank you."
 }
+Response = "message_sent"
 
 - Follow_user/Unfollow_unfollow.
 
