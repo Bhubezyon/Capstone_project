@@ -22,6 +22,8 @@ DATABASES = {
 
 INSTALLED_APPS = [
     'rest_framework',
+    'sales',
+    'posts',
 ]
 
 AUTHOR_USER_MODEL = 'sales.CustomUser'
