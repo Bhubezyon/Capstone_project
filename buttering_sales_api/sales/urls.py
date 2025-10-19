@@ -3,8 +3,9 @@ from .views import RegisterView, LoginView, ProfileView
 from .views import FollowUserView, UnfollowUserView, LikeUserView, UnlikeUserView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api', include('sales.url')),  # Replace with your app name
+    path('api/admin', admin.site.urls),
+    path('api/sales', include('sales.url')),
+    path('api/posts', include('posts.urls')) 
 ]
 
 urlpatterns = [
