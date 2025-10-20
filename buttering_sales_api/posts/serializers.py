@@ -41,7 +41,6 @@ class CommentSerializer(serializers.ModelsSerializer):
         comments = CommentSerializer(many=True, read_only=True)
         likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
-
     class Meta:
         models = Post
         fields = ['id', 'author', 'title', 'summery', 'content', 'is_for_sale', 'exchange_item', 'created_at', 'updated_at', 'comment']

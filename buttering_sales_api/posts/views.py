@@ -39,7 +39,7 @@ class LoginView(APIView):
 class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Allow safe methods for anyone, otherwise only the author can modify
-        return request.method in permissions.SAFE_METHODS or getattr(obj, "author", None) == request.user
+        return request.method in permissions.SAFE_METHODS or get(obj, "author", None) == request.user
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -119,17 +119,23 @@ class LikePostView(APIView):
             return Response({"message": "Post liked"}, status=status.HTTP_201_CREATED)
         return Response({"message": "Already liked"}, status=status.HTTP_200_OK)
 
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ['id', 'sender', 'recipient', 'content', 'timestamp']
+        read_only_fields = ['sender']
 
-class UnlikePostView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+class SendMessageView(APIView):
+    def post(self, request):
+        serializer = MessageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(sender=request.user)
+            return Response({"message": "Message sent"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def post(self, request, pk):
-        post = Post.objects.get(pk=pk)
-        try:
-            like = Like.objects.get(user=request.user, post=post)
-            like.delete()
-            return Response({"message": "Post unliked"}, status=status.HTTP_200_OK)
-        except Like.DoesNotExist:
-            return Response(
-                {"error": "You have not liked this post"}, status=status.HTTP_400_BAD_REQUEST
-            )
+class MessageThreadView(APIView):
+    def get(self, requet, useer_id):
+        message = Message.objects.filter(sender=request.user, recipient_id=user_id) | Message.objects.filter(sender_id=user_id, recipient=request.user)
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data)
+

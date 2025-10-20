@@ -7,13 +7,6 @@ from django.core.validators import FileExtensionValidator
 from django.db.models.signals import post_save
 from django.dispatch import reciever
 
-class CustomUser(AbstractUser):
-    bio = models.TextField(blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pics', blank=True, null=True)
-
-    def __str__(self):
-        return self.username
-
 class Post(models.Models):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=255)
@@ -56,6 +49,10 @@ class Post(models.Model):
         ('other', 'Other')
     ]
 catergory = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='other')
+
+class Post(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content 
 
 class Notification(models.Model):
     recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='notificationd')

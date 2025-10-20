@@ -1,8 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import PostViewSet, CommentViewSet
-from django.urls import path
-from .views_user import RegisterViewSet, LoginViewSet
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet)
@@ -13,7 +11,8 @@ router.register(r'register', RegisterViewSet)
 router.register(r'login', LoginViewSet)
 
 urlpatterns = [
-    path('api/router', include(router.urls)),
+    path('admin/', admin.site.urls),
+    path('api/users', include(users.urls)),
     path('api/post', include('posts.urls')),
     path('api/message', include('message.urls')),
     path('api/register', RegisterView.as_view(), name='register'),
