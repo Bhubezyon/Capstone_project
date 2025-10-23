@@ -50,10 +50,6 @@ class Post(models.Model):
     ]
 catergory = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='other')
 
-class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    content 
-
 class Notification(models.Model):
     recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='notificationd')
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

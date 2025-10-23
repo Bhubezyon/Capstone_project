@@ -1,23 +1,18 @@
-from rest_framework import viewsets, permissions, filters, status, generics
-from rest_framework.decorators import action
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
-from django.db import models
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Post, Comment, Notification, Message, Like
-from .serializers_user import RegisterSerializer
-
-from .serializers import (
-    PostSerializer,
-    CommentSerializer,
-    NotificationSerializer,
-    MessageSerializer,
-)
+from rest_framework import generics, permissions
+from .serializers import RegisterSerializer, LoginSerializer
+from django.contrib.auth import authenticate
 
 class RegisterView(generics.CreateAPIView):
-    permission_classes = [AllowAny]
-
+    serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny]
+    
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -26,14 +21,19 @@ class RegisterView(generics.CreateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid(): 
-            user = serializer.validated_data
-            return Response({"mesasage": "Login successful"}, status=status.HTTP_200_OK)
-            return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            user = authenticate(
+                username=serializer.validated_data['username'],
+                password=serializer.validated_data['password']
+            )
+            if user:
+                return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -101,23 +101,6 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(sender=self.request.user)
-
-
-class LikePostView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request, pk):
-        post = Post.objects.get(pk=pk)
-        like, created = Like.objects.get_or_create(user=request.user, post=post)
-        if created:
-            Notification.objects.create(
-                recipient=post.author,
-                actor=request.user,
-                verb="liked your post",
-                target=post,
-            )
-            return Response({"message": "Post liked"}, status=status.HTTP_201_CREATED)
-        return Response({"message": "Already liked"}, status=status.HTTP_200_OK)
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:

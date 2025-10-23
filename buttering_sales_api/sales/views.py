@@ -1,9 +1,11 @@
-from rest_framework import generic, permissions
-from .models import CustomUser
-from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer
-from rest_framework.response import response
+from rest_framework.permissions import IsAuthicated
+from rest_framework.authentication import TokenAuthentication 
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
+from rest_framework import status, generics, permissions
+from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer, PostSerializer, CommentSerializer, LikeSerializer
 
 CustomUser = get_user_model()
 
@@ -39,3 +41,29 @@ class PostListCreateView(generics.ListCreateAPIView):
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+class CommentListCreateView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class LikeView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+        post.likes.add(request.user)
+        return Response({'message': 'Post liked'}, status=status.HTTP_200_OK)
+
+class UnlikeView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+        post.likes.remove(request.user)
+        return Response({'message': 'Post unliked'}, status=status.HTTP_200_OK)

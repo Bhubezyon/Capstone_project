@@ -1,7 +1,5 @@
-from django.urls import path
-from .views import RegisterView, LoginView, ProfileView
-from .views import PostListCreateView, PostDetailView, MessageListView, SendMessageView
-from .views import FollowUserView, UnfollowUserView, LikeUserView, UnlikeUserView
+from django.urls import path, include
+from .views import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),

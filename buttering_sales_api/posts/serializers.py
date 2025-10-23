@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Post, Comment
+from .models import CustomUser, RegisterSerializer, LoginSerializer, PostSerializer, CommentSerializer, NotificationSerializer, MessageSerializer
+from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 
 class RegisterSerializer(serializers.ModelSerializer):
