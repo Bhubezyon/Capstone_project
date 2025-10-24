@@ -14,7 +14,7 @@ INSTALLED_APPS = [
         'rest_framework.authtoken',
         'posts',
         'sales',
-        ]
+]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -34,12 +34,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-DEBUG = False
+DEBUG = True
+
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost'] # DOMAIN PRODUCTION
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.environ.get('DB_NAME', 'your_db_name'),
         'USER': os.environ.get('DB_USER', 'your_db_user'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'your_db_password'),
