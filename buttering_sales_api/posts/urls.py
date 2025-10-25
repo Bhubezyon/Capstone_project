@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import views
+from .views import PostViewSet, CommentViewSet, NotificationViewSet, MessageViewSet, RegisterViewSet, LoginViewSet
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet)
@@ -11,6 +11,7 @@ router.register(r'register', RegisterViewSet)
 router.register(r'login', LoginViewSet)
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api/users', include(users.urls)),
     path('api/post', include('posts.urls')),
@@ -23,4 +24,10 @@ urlpatterns = [
 urlpatterns += [
     path('posts/<int:pk>/like/', LikePostView.as_view(), name='like_post'),
     path('posts/<int:pk>/unlike/', UnlikePostView.as_view(), name='unlike_post'),
+]
+
+from django.urls import path
+
+urlpatterns = [
+    # Add your posts app endpoints here
 ]

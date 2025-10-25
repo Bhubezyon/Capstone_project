@@ -62,7 +62,6 @@ class PostViewSet(viewsets.ModelViewSet):
         )
         return Response({"status": "post liked"})
 
-
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

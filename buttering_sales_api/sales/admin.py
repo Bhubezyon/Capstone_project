@@ -1,11 +1,12 @@
-from django.contrib.auth.models import AbstractUser
-from django.db import models
+from django.contrib import admin
+from .models import Sales, UserRegistration, UserLogin, Posts, Messages
 
-class CustomUser(AbstractUser):
-    bio = models.TextField(blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
-    followers = models.ManyToManyField('self', symmetrical=False, related_name='followers_set', blank=True)
-    following = models.ManyToManyField('self', symmetrical=False, related_name='following', blank=True)
+admin.site.register(Sale)
+admin.site.register(UserRegistration)
+admin.site.register(UserLogin)
+admin.site.register(UserProfile)
+admin.site.register(Posts)
+admin.site.register(Messages)
+admin.site.register(Product)
+admin.site.register(Customer)
 
-    def __str__():
-        return self.username

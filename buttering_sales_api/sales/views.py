@@ -9,23 +9,6 @@ from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer,
 
 CustomUser = get_user_model()
 
-class RegisterView(APIView):
-    def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'User registered successfully!'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-
-class LoginView(APIView):
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = authenticate(username=serializer.validated_data['username'], password=serializer.validated_data['password'])
-            return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class ProfileView(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = ProfileSerializer
@@ -67,3 +50,24 @@ class UnlikeView(APIView):
         post = Post.objects.get(id=post_id)
         post.likes.remove(request.user)
         return Response({'message': 'Post unliked'}, status=status.HTTP_200_OK)
+
+class FollowView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        target_user = CustomUser.objects.get(id=user_id)
+        if request.user == target_user:
+            return Response({'error': 'You cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+        Follow.objects.get_or_create(follower=request.user, following=target_user)
+        return Response({'message': f'You are now following {target_user.username}'}, status=status.HTTP_200_OK)
+
+class UnfollowView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        target_user = CustomUser.objects.get(id=user_id)
+        follow = Follow.objects.filter(follower=request.user, following=target_user)
+        if follow.exists():
+            follow.delete()
+            return Response({'message': f'You have unfollowed {target_user.username}'}, status=status.HTTP_200_OK)
+        return Response({'error': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
